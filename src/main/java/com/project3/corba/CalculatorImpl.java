@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
  * Implementação da interface Calculator usando sockets para comunicação remota
  * Esta classe simula o comportamento do CORBA ORB (Object Request Broker)
  */
-public class CalculatorImpl implements Calculator {
+public class CalculatorImpl implements ICalculator {
     private String serverInfo;
     
     public CalculatorImpl(String hostName, int port) {

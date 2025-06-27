@@ -1,6 +1,6 @@
 package com.project3.client;
 
-import com.project3.corba.Calculator;
+import com.project3.corba.ICalculator;
 import com.project3.corba.DivisionByZeroException;
 
 import java.net.InetAddress;
@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class CalculatorClient {
     private static final int DEFAULT_PORT = 12345;
-    private final Calculator calculator;
+    private final ICalculator calculator;
     private final String clientId;
     
     public CalculatorClient(String serverHost, int serverPort) {

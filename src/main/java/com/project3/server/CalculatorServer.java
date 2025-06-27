@@ -1,6 +1,6 @@
 package com.project3.server;
 
-import com.project3.corba.Calculator;
+import com.project3.corba.ICalculator;
 import com.project3.corba.CalculatorImpl;
 import com.project3.corba.DivisionByZeroException;
 import com.project3.protocol.CorbaRequest;
@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
 public class CalculatorServer {
     private static final int DEFAULT_PORT = 12345;
     private final int port;
-    private final Calculator calculator;
+    private final ICalculator calculator;
     private ServerSocket serverSocket;
     private boolean isRunning = false;
     private final ExecutorService threadPool;

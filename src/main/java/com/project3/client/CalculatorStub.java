@@ -1,6 +1,6 @@
 package com.project3.client;
 
-import com.project3.corba.Calculator;
+import com.project3.corba.ICalculator;
 import com.project3.corba.DivisionByZeroException;
 import com.project3.protocol.CorbaRequest;
 import com.project3.protocol.CorbaResponse;
@@ -13,7 +13,7 @@ import java.net.*;
  * Esta classe representa o lado cliente do ORB
  * Encapsula a comunicação remota e torna transparente para o cliente
  */
-public class CalculatorStub implements Calculator {
+public class CalculatorStub implements ICalculator {
     private final String serverHost;
     private final int serverPort;
     private final String clientId;

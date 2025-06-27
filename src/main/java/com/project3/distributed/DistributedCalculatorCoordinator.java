@@ -1,6 +1,6 @@
 package com.project3.distributed;
 
-import com.project3.corba.Calculator;
+import com.project3.corba.ICalculator;
 import com.project3.client.CalculatorStub;
 
 import java.net.InetAddress;
@@ -14,7 +14,7 @@ public class DistributedCalculatorCoordinator {
     private final Map<String, HostInfo> connectedHosts;
     private final String coordinatorId;
     private final Scanner scanner;
-    private List<Calculator> activeCalculators;
+    private List<ICalculator> activeCalculators;
     
     public DistributedCalculatorCoordinator() {
         this.connectedHosts = new HashMap<>();
@@ -98,7 +98,7 @@ public class DistributedCalculatorCoordinator {
                 System.out.printf("Conectando a %s:%d... ", host.getIp(), host.getPort());
                 
                 String clientId = coordinatorId + "-" + host.getName();
-                Calculator calculator = new CalculatorStub(host.getIp(), host.getPort(), clientId);
+                ICalculator calculator = new CalculatorStub(host.getIp(), host.getPort(), clientId);
                 
                 if (calculator instanceof CalculatorStub) {
                     CalculatorStub stub = (CalculatorStub) calculator;
@@ -173,11 +173,11 @@ public class DistributedCalculatorCoordinator {
         System.out.printf("ORB - Object Request Broker ativo com %d hosts\n", activeCalculators.size());
     }
     
-    private Calculator getNextCalculator() {
+    private ICalculator getNextCalculator() {
         if (activeCalculators.isEmpty()) {
             throw new RuntimeException("Nenhum host ativo");
         }
-        Calculator calculator = activeCalculators.get(0);
+        ICalculator calculator = activeCalculators.get(0);
         activeCalculators.add(activeCalculators.remove(0));
         return calculator;
     }
@@ -189,7 +189,7 @@ public class DistributedCalculatorCoordinator {
             System.out.print("Segundo numero: ");
             double b = Double.parseDouble(scanner.nextLine());
             
-            Calculator calculator = getNextCalculator();
+            ICalculator calculator = getNextCalculator();
             String hostInfo = getHostInfo(calculator);
             
             System.out.println("\n=== DETALHES DA OPERACAO CORBA ===");
@@ -236,7 +236,7 @@ public class DistributedCalculatorCoordinator {
         System.out.printf("Hosts ativos: %d\n", activeCalculators.size());
         
         for (int i = 0; i < activeCalculators.size(); i++) {
-            Calculator calc = activeCalculators.get(i);
+            ICalculator calc = activeCalculators.get(i);
             try {
                 String serverInfo = calc.getServerInfo();
                 System.out.printf("%d. %s\n", i + 1, serverInfo);
@@ -256,7 +256,7 @@ public class DistributedCalculatorCoordinator {
             System.out.println("   Cliente nao sabe onde o objeto esta fisicamente");
             
             for (int i = 0; i < Math.min(3, activeCalculators.size()); i++) {
-                Calculator calc = getNextCalculator();
+                ICalculator calc = getNextCalculator();
                 String hostInfo = getHostInfo(calc);
                 
                 System.out.printf("   Chamada %d: Executando em %s\n", i+1, hostInfo);
@@ -267,7 +267,7 @@ public class DistributedCalculatorCoordinator {
             
             System.out.println("\n2. TRANSPARENCIA DE ACESSO:");
             System.out.println("   Mesma interface para objetos locais e remotos");
-            Calculator calc = getNextCalculator();
+            ICalculator calc = getNextCalculator();
             String serverInfo = calc.getServerInfo();
             System.out.printf("   Informacoes do servidor: %s\n", serverInfo);
             
@@ -290,7 +290,7 @@ public class DistributedCalculatorCoordinator {
             double b = 25.0;
             
             for (int i = 0; i < activeCalculators.size(); i++) {
-                Calculator calc = getNextCalculator();
+                ICalculator calc = getNextCalculator();
                 String hostInfo = getHostInfo(calc);
                 
                 System.out.printf("Host %s:\n", hostInfo);
@@ -320,7 +320,7 @@ public class DistributedCalculatorCoordinator {
         }
     }
     
-    private String getHostInfo(Calculator calculator) {
+    private String getHostInfo(ICalculator calculator) {
         try {
             String serverInfo = calculator.getServerInfo();
             if (serverInfo.contains("@")) {
