@@ -1,1 +1,0 @@
-javac -cp . -d target\classes src\main\java\com\project3\*.java src\main\java\com\project3\client\*.java src\main\java\com\project3\server\*.java src\main\java\com\project3\corba\*.java src\main\java\com\project3\protocol\*.java src\main\java\com\project3\distributed\*.java
